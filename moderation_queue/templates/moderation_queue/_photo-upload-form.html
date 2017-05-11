@@ -1,5 +1,7 @@
 {% load i18n %}
 
+<h2>{% trans 'Upload a photo from your disk' %}</h2>
+
 <form id="person-upload-photo-image" action="{% url 'photo-upload' person_id %}" method="post" enctype="multipart/form-data">
 
   {% if queued_images %}
@@ -21,6 +23,7 @@
 
   {{ form.non_field_errors }}
   {% csrf_token %}
+
   <p>
     {% if queued_images %}{% blocktrans trimmed with name=person.name %}
     If you still want to upload another photo of {{ name }}, first select an image from your computer (maximum size: 50 MB):
@@ -35,6 +38,7 @@
   <p>
     {{ form.image }}
   </p>
+
   <p>{% blocktrans trimmed %}
   Now let us know about the copyright of this image by selecting one of
     these options or explaining why we can use it:{% endblocktrans %}</p>

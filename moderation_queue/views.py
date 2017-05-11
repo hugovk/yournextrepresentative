@@ -27,7 +27,7 @@ from slugify import slugify
 from auth_helpers.views import GroupRequiredMixin
 from candidates.management.images import get_file_md5sum
 
-from .forms import UploadPersonPhotoForm, PhotoReviewForm
+from .forms import UploadPersonPhotoForm, UploadPersonPhotoUrlForm, PhotoReviewForm
 from .models import QueuedImage, SuggestedPostLock, PHOTO_REVIEWERS_GROUP_NAME
 
 from candidates.models import (LoggedAction, ImageExtra,
@@ -68,6 +68,22 @@ def upload_photo_image(request, person_id):
                 'person': person
             }
         )
+    return render(
+        request,
+        'moderation_queue/photo-upload-new.html',
+        {'form': form,
+         'queued_images': QueuedImage.objects.filter(
+             person=person,
+             decision='undecided',
+         ).order_by('created'),
+         'person': person}
+    )
+
+
+@login_required
+def upload_photo_url(request, person_id):
+    person = get_object_or_404(Person, id=person_id)
+    form = UploadPersonPhotoUrlForm(request.POST)
     return render(
         request,
         'moderation_queue/photo-upload-new.html',
