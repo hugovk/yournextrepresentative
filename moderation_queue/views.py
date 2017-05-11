@@ -38,7 +38,7 @@ from popolo.models import Person
 
 
 @login_required
-def upload_photo(request, person_id):
+def upload_photo_image(request, person_id):
     person = get_object_or_404(Person, id=person_id)
     if request.method == 'POST':
         form = UploadPersonPhotoForm(request.POST, request.FILES)
