@@ -131,7 +131,7 @@ class PhotoUploadTests(UK2015ExamplesMixin, WebTest):
         self.site.delete()
         super(PhotoUploadTests, self).tearDown()
 
-    def test_photo_upload(self):
+    def test_photo_upload_through_image_field(self):
         queued_images = QueuedImage.objects.all()
         initial_count = queued_images.count()
         upload_form_url = reverse(
@@ -142,7 +142,7 @@ class PhotoUploadTests(UK2015ExamplesMixin, WebTest):
             upload_form_url,
             user=self.test_upload_user
         )
-        form = form_page_response.forms['person-upload-photo']
+        form = form_page_response.forms['person-upload-photo-image']
         with open(self.example_image_filename, 'rb') as f:
             form['image'] = Upload('pilot.jpg', f.read())
         form['why_allowed'] = 'copyright-assigned'
